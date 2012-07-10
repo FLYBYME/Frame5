@@ -45,28 +45,33 @@ npm install frame5
 var express = require('express');
 var http = require('http');
 
-var Frame5 = require('frame5')
+var Frame5 = require('./frame5');
 
-var app = express.createServer()
+var frame5 = new Frame5()
 
+var app = express.createServer();
 
-app.use(express.favicon())
-app.use(express.logger('dev'))
-app.use(express.cookieParser())
-
+app.use(express.bodyParser());
+app.use(express.cookieParser('shhhh, very secret'));
 app.use(express.session({
-	secret : 'my secret here'
-}))
+	secret : "string",
+	cookie : {
+		maxAge : 600000000000
+	}
+}));
+
+app.use(express.static(__dirname + '/tests'));
+
+app.server = app.listen(3000)
 
 
-app.use(Frame5(app))
+app.use(frame5.use(app));
 
 
 app.get('/test', function(req, res) {
-	res.sendfile('./test.html')
-})
+	res.send('test');
+});
 
-app.listen(3000);
 
 ~~~
 
@@ -115,3 +120,19 @@ app.listen(3000);
 </html>
 
 ~~~
+
+Versioning
+----------
+
+Releases will be numbered with the follow format:
+
+`<major>.<minor>.<patch>`
+
+And constructed with the following guidelines:
+
+* Breaking backward compatibility bumps the major (and resets the minor and patch)
+* New additions without breaking backward compatibility bumps the minor (and resets the patch)
+* Bug fixes and misc changes bumps the patch
+
+For more information on SemVer, please visit http://semver.org/.
+

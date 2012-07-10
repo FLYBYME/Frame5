@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script type="text/javascript" src="/frame5"></script>
+		<script type="text/javascript" src="https://github.com/LearnBoost/expect.js/raw/master/expect.js"></script>
+		<script type="text/javascript" src="https://raw.github.com/visionmedia/mocha/master/mocha.js"></script>
+		<link rel="stylesheet" href="https://raw.github.com/visionmedia/mocha/master/mocha.css" />
+		<script>
+			mocha.setup('bdd')
+		</script>
+		<script>
+			function assert(expr, msg) {
+				if (!expr)
+					throw new Error(msg || 'failed');
+			}
+
+			before(function(done) {
+				Frame5.init(function() {
+
+				})
+				done()
+			});
+
+			describe('Frame5.Worker()', function() {
+
+				it('should be instance of WebCowker  ', function() {
+					assert(Frame5.worker instanceof Frame5.WebWorker)
+				});
+
+			});
+			describe('Frame5.worker.invoke', function() {
+
+				it('shoulod have method list and should be indexOf==1   ', function(done) {
+					Frame5.worker.invoke('list', [], function(err, result) {
+						assert(result.Array.indexOf('list') === 1)
+						done();
+					})
+				})
+			})
+			describe('Frame5.invoke', function() {
+
+				it('shoulod have method list and should be indexOf==1   ', function(done) {
+					Frame5.invoke('list', [], function(err, result) {
+						assert(result.Array.indexOf('list') === 1)
+						done();
+					})
+				})
+			})
+		</script>
+
+		<script>
+			$(function() {
+				mocha.run();
+			});
+		</script>
+	</head>
+	<body>
+		<div id="mocha"></div>
+	</body>
+</html>

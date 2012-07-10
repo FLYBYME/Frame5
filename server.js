@@ -1,23 +1,29 @@
 var express = require('express');
 var http = require('http');
 
-var Frame5 = require('./lib')
+var Frame5 = require('./frame5');
 
-var app = express.createServer()
+var frame5 = new Frame5()
 
-app.use(Frame5(app))
+var app = express.createServer();
 
-app.use(express.favicon())
-app.use(express.logger('dev'))
-app.use(express.static('public'))
-app.use(express.directory('public'))
-app.use(express.cookieParser())
-
+app.use(express.bodyParser());
+app.use(express.cookieParser('shhhh, very secret'));
 app.use(express.session({
-	secret : 'my secret here'
-}))
-app.get('/test', function(req, res) {
-	res.send('test')
-})
+	secret : "string",
+	cookie : {
+		maxAge : 600000000000
+	}
+}));
 
-app.listen(3000);
+app.use(express.static(__dirname + '/tests'));
+
+app.server = app.listen(3000)
+
+
+app.use(frame5.use(app));
+
+
+app.get('/test', function(req, res) {
+	res.send('test');
+});

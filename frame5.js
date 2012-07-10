@@ -15,9 +15,8 @@ var connect = require('connect')
 var json = require('./streams/json');
 
 var split = require('./streams/split');
-var uuid = require('../lib/utils').uuid;
-var Module = require('../lib/rpc');
-var app = require('../app')
+var uuid = require('./lib/utils').uuid;
+var Module = require('./lib/rpc');
 
 /***
  * btn api client
