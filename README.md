@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/FLYBYME/Frame5.png)](http://travis-ci.org/FLYBYME/Frame5)
 # Frame5 - HTML5 Framework
 
 Frame5 is an attempt creating an HTML5 framework. Under the umbrella 
