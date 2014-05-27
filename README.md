@@ -68,8 +68,6 @@ app.listen(8080);
 
 ## The Client
 ~~~ html
-
-
 <!DOCTYPE html>
 <html>
 
@@ -87,7 +85,6 @@ app.listen(8080);
 	</script>
 	</body>
 </html>
-
 ~~~
 
 Versioning
