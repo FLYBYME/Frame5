@@ -43,34 +43,26 @@ npm install frame5
 
 ~~~ js
 var express = require('express');
-var http = require('http');
+var Frame5 = require('../');
 
-var Frame5 = require('./frame5');
+var app = module.exports = express.createServer(express.static(__dirname));
 
-var frame5 = new Frame5()
+var f5 = new Frame5(app);
 
-var app = express.createServer();
-
-app.use(express.bodyParser());
-app.use(express.cookieParser('shhhh, very secret'));
-app.use(express.session({
-	secret : "string",
-	cookie : {
-		maxAge : 600000000000
-	}
-}));
-
-app.use(express.static(__dirname + '/tests'));
-
-app.server = app.listen(3000)
-
-
-app.use(frame5.use(app));
-
-
-app.get('/test', function(req, res) {
-	res.send('test');
+f5.on('rpc', function(rpc) {
+	rpc.expose('chat', {
+		msg : function(msg, name) {
+			var self = this;
+			rpc.broadcast('chat.msg', [msg, name], function() {
+				self.send();
+			});
+		}
+	});
+	rpc.ready();
 });
+
+app.listen(8080);
+
 
 
 ~~~
@@ -88,28 +80,8 @@ app.get('/test', function(req, res) {
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Frame5</title>
-		
-		<!--
-		//
-		//
-		//
-		-->
-		
 		<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-		
-		<!--
-		//
-		//
-		//
-		-->
-		
 		<script src="/frame5"></script>
-
-		<!--
-		//
-		//
-		//
-		-->
 	</head>
 
 	<body>
