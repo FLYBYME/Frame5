@@ -1,0 +1,22 @@
+{
+	"name": "frame5",
+	"version": "0.1.0",
+	"main": "lib/frame5.js",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/FLYBYME/Frame5.git"
+	},
+	"dependencies": {
+		"express": "2.x",
+		"ws": "*",
+		"cookie": "*",
+		"connect": "*",
+		"socket.io": "*",
+		"uglify-js": "*"
+	},
+	"license": "BSD",
+	"description": "Frame5 is an attempt creating an HTML5 framework. Under the umbrella  standard HTML5 a lot of technological are at play. Frame5's goal is  to bring together as many of the specs as it can.",
+	"bugs": {
+		"url": "https://github.com/FLYBYME/Frame5/issues"
+	}
+}
