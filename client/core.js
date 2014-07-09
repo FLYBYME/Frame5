@@ -67,30 +67,32 @@ function uuid() {
 }
 
 function Frame5() {
-	return this.init()
+	this.debug = true;
+
+	return this.init();
 }
 
-inherits(Frame5, $.EventEmitter)
+inherits(Frame5, $.EventEmitter);
 
 Frame5.prototype.init = function(selector) {
 	var self = this
-	
+
 	$.EventEmitter.call(this);
-	this.isReady = false
+	this.isReady = false;
 	this.once('core', function() {
-		self.logger('Frame5 core ready')
-	})
+		self.logger('Frame5 core ready');
+	});
 	if (_jQuery) {
 		jQuery(document).ready(function() {
-			self.isReady = true
+			self.isReady = true;
 
-			self.emit('ready')
-		})
+			self.emit('ready');
+		});
 	} else {
-		self.emit('ready')
+		self.emit('ready');
 	}
 	return this;
-}
+};
 //
 Frame5.prototype.inherits = inherits;
 Frame5.prototype.uuid = uuid;
@@ -112,6 +114,16 @@ Frame5.prototype.nope = function() {
 	//
 };
 //
+Frame5.prototype.loadCss = function(_link, media) {
+	var head = document.getElementsByTagName('head')[0];
+	var link = document.createElement('link');
+	link.rel = 'stylesheet';
+	link.type = 'text/css';
+	link.href = _link;
+	link.media = media || 'all';
+	head.appendChild(link);
+};
+//
 var print = function(o) {
 	var str = '';
 	if ( typeof o === 'string') {
@@ -127,18 +139,21 @@ var print = function(o) {
 	}
 
 	return str;
-}
+};
 Frame5.prototype.logger = function(message, html) {
-	
+
+	if (this.debug) {
+		//console.log(message);
+	}
 
 };
 //
 Frame5.prototype.ready = function(fn) {
 
 	if (this.isReady) {
-		fn(this)
+		fn(this);
 	} else {
-		this.once('ready', fn)
+		this.once('ready', fn);
 	}
 
 };
@@ -155,7 +170,8 @@ Frame5.prototype.extend = function() {
 		target = {};
 	}
 	if (length === i) {
-		target = this; --i;
+		target = this;
+		--i;
 	}
 	for (; i < length; i++) {
 		if (( options = arguments[i]) != null) {
@@ -497,5 +513,5 @@ function objectToString(o) {
 }
 
 //
-$.Frame5 = new Frame5
-$.Frame5.logger('Frame5 core framework readt')
+$.Frame5 = new Frame5;
+$.Frame5.logger('Frame5 core framework readt');

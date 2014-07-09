@@ -42,25 +42,22 @@ Frame5.extend({
 		req.onabort = req.onerror = function() {
 			console.log('onerror')
 			request.emit('error')
-		}
+		};
 		function hdl() {
 			if (req.readyState == 4) {
 
 				if ((/^[20]/).test(req.status)) {
 					request.responseText = req.responseText;
 					request.status = req.status;
-					if (req.getResponseHeader('x-jquery-tmpl')) {
-						request.emit('tmpl', request.responseText, req.getResponseHeader('x-jquery-tmpl'), req)
-					} else {
 
-						var json;
-						try {
-							json = JSON.parse(req.responseText)
-						} catch(err) {
-							return request.emit('error', err, req)
-						}
-						request.emit('end', json, req)
+					var json;
+					try {
+						json = JSON.parse(req.responseText)
+					} catch(err) {
+						return request.emit('error', err, req)
 					}
+					request.emit('end', json, req)
+
 				}
 				if ((/^[45]/).test(req.status))
 					request.emit('error', req.responseText, req)
@@ -68,6 +65,7 @@ Frame5.extend({
 					request.emit('abort', options, req)
 			}
 		}
+
 		if (async) {
 			req.onreadystatechange = hdl;
 		}
@@ -76,6 +74,6 @@ Frame5.extend({
 			hdl();
 		return request;
 	}
-})
+});
 
-Frame5.logger('Frame5 XHR ready');
+Frame5.logger('Frame5 XHR ready'); 

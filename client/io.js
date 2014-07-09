@@ -1,8 +1,8 @@
 function Io() {
-	Frame5.EventEmitter.call(this)
+	Frame5.EventEmitter.call(this);
 }
 
-Frame5.inherits(Io, Frame5.EventEmitter)
+Frame5.inherits(Io, Frame5.EventEmitter);
 
 Io.prototype.connect = function(url) {
 	if (this.conn) {
@@ -12,7 +12,7 @@ Io.prototype.connect = function(url) {
 		var conn = this.conn = io.connect('');
 
 		var rpc = this.rpc = new Frame5.Module(function(data) {
-			conn.emit('rpc', data)
+			conn.emit('rpc', data);
 		});
 
 		function onRead(data) {
@@ -32,14 +32,14 @@ Io.prototype.connect = function(url) {
 
 		conn.on('connect', function() {
 			self.emit('ready');
-			Frame5.emit('com', rpc)
+			Frame5.emit('com', rpc);
 		});
 		conn.on('disconnect', function() {
 			self.emit('exit');
 			rpc.emit('exit');
 		});
 	}
-}
+};
 Frame5.extend({
 	Io : Io
 });

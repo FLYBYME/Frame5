@@ -44,7 +44,7 @@ function Browser() {
 				return false;
 			}
 		}
-	})()
+	})();
 	this.Plugins.Flash = {
 		version : Number(version[0] || '0.' + version[1]) || 0,
 		build : Number(version[2]) || 0
@@ -66,16 +66,16 @@ function Browser() {
 		}
 
 	})();
-	Frame5.logger('Frame5 browser init')
+	Frame5.logger('Frame5 browser init');
 	var features = ''
 	for (var key in this.Features) {
-		features += key + '=' + this.Features[key] + '   '
+		features += key + '=' + this.Features[key] + '   ';
 	}
 
-	Frame5.logger('Frame5 browser features (' + features + ')')
-	//Frame5.logger(this)
+	Frame5.logger('Frame5 browser features (' + features + ')');
+	
 }
 
 Frame5.extend({
 	browser : new Browser()
-})
+});

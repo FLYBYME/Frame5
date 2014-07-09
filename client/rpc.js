@@ -9,7 +9,7 @@ var Exposed = function(data, id, cb) {
 	this.method = data.method;
 	this.params = data.params;
 	this.from = data.from;
-	this.callBack = cb;
+	this.cb = cb;
 
 	//
 	this.result = {};
@@ -18,13 +18,30 @@ var Exposed = function(data, id, cb) {
 
 };
 
+Exposed.prototype.callback = function(format) {
+	var self = this
+	return function(err, data) {
+		if (err) {
+			self.error(err);
+		} else {
+			if (format) {
+				self.send(Array.isArray(data) ? data.map(format) : format(data));
+			} else {
+				self.send(data);
+			}
+		}
+	};
+};
+
 Exposed.prototype.send = Exposed.prototype.end = function(data) {
 
 	if (this.hasSent) {
 		throw new Error('should not sent twice.');
 	}
 
-	if ( typeof data === 'object') {
+	if (Array.isArray(data)) {
+		this.result = data;
+	} else if ( typeof data === 'object') {
 		for (var key in data) {
 			this.set(key, data[key]);
 		}
@@ -32,7 +49,7 @@ Exposed.prototype.send = Exposed.prototype.end = function(data) {
 		this.set(arguments[0], arguments[1]);
 	}
 	if (this.err['code'])
-		this.callBack({
+		this.cb({
 			to : this.from,
 			id : this.id,
 			result : this.result,
@@ -40,7 +57,7 @@ Exposed.prototype.send = Exposed.prototype.end = function(data) {
 
 		});
 	else {
-		this.callBack(null, {
+		this.cb(null, {
 			to : this.from,
 			id : this.id,
 			result : this.result,
@@ -61,7 +78,7 @@ Exposed.prototype.get = function(key) {
 };
 Exposed.prototype.error = function(msg, code) {
 	this.err = {
-		
+
 		message : msg.stack ? msg.stack : msg,
 		code : code || 1000,
 		method : this.method,

@@ -5,8 +5,8 @@ Frame5.extend({
 	configure : function(config) {
 		for (key in config) {
 			if (Frame5.config[key])
-				Frame5.config[key] = config[key]
+				Frame5.config[key] = config[key];
 		}
 	}
-})
+});
 
